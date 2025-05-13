@@ -12,17 +12,17 @@ namespace project_1
 
     {
        
-        static bool checkArgs(string[] args)
-        {
-            if (getNumberOfElements(args) >= 3)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //static bool checkArgs(string[] args)
+        //{
+        //    if (getNumberOfElementsString(args) >= 3)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         static void requierdInput()
         {
@@ -50,7 +50,7 @@ namespace project_1
 
         static bool isValidate(string[] input)
         {
-            if (getNumberOfElements(input) < 3)
+            if (getNumberOfElementsString(input) < 3)
             {
                 print("the number of element you enter is less than three");
                 //requierdInput();
@@ -67,6 +67,7 @@ namespace project_1
             }
             return true;
         }
+        
 
         static void showMenue()
         {
@@ -93,22 +94,22 @@ namespace project_1
             return converted;
         }
 
-        static List <int> reverseTheSeries(int[] input)
+        static List <int> reverseTheSeries(List<int> input)
         {
             List<int> reversed = new List<int>();
-            for (int i = input.Length; i <= 0; i--)
+            for (int i = getNumberOfElementsInt(input); i <= 0; i--)
             {
                 reversed.Add(input[i]);
             }
             return reversed;
         }
 
-        static int[] getSortedList(int[] input)
+        static List<int> getSortedList(List<int> input)
         {
             List<int> sorted = new List<int>();
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < getNumberOfElementsInt(input); i++)
             {
-                for (int j = 0; j < input.Length; j++)
+                for (int j = 0; j < getNumberOfElementsInt(input); j++)
                 {
                     if (input[i] > input[j])
                     {
@@ -121,7 +122,7 @@ namespace project_1
             return input;
         }
 
-        static int getMax(int[] input)
+        static int getMax(List<int> input)
         {
             int max = 0;
             foreach (int ch in input)
@@ -134,7 +135,7 @@ namespace project_1
             return max;
         }
 
-        static int getMin(int[] input)
+        static int getMin(List<int> input)
         {
             int min = getMax(input);
             foreach (int ch in input)
@@ -147,10 +148,10 @@ namespace project_1
             return min;
         }
 
-        static int getAverage(int[] input)
+        static int getAverage(List<int> input)
         {
             int sum = getSum(input);
-            int counter = 0;
+            int counter = getNumberOfElementsInt(input);
             foreach (int ch in input)
             {
                 sum += ch;
@@ -159,20 +160,69 @@ namespace project_1
             return sum / counter;
         }
 
-        static void chosenMenue(int input)
+        static void choosingOption(int input, List<int> converted)
         {
             switch(input)
             {
                 case 1:
-                    
+                    requierdInput();
+                    string userInput = getUserInput();
+                    string[] listUserInput = splitInput(userInput);
+                    if (isValidate(listUserInput))
+                    {
+                        List<int> convertedList = convertToInt(listUserInput);
+                        print("the series you entered is " + convertedList);
+                    }
+                    break;
 
-                    
+                case 2:
+                    print("the series you entered is " + converted);
+                    break;
+
+                case 3:
+                    List<int> reversedList = reverseTheSeries(converted);
+                    print("the series you entered at reverse is " + reversedList);
+                    break;
+
+                case 4:
+                    List<int> sortedList = getSortedList(converted);
+                    print("the series you entered at sorted is " + sortedList);
+                    break;
+
+                case 5:
+                    int max = getMax(converted);
+                    print("the max value of the series is " + max);
+                    break;
+
+                case 6:
+                    int min = getMin(converted);
+                    print("the min value of the series is " + min);
+                    break;
+
+                case 7:
+                    int average = getAverage(converted);
+                    print("the average of the series is " + average);
+                    break;
+
+                case 8:
+                    int numberOfElements = getNumberOfElementsInt(converted);
+                    print("the number of elements in the series is " + numberOfElements);
+                    break;
+
+                case 9:
+                    int sum = getSum(converted);
+                    print("the sum of the series is " + sum);
+                    break;
+
+                case 10:
+                    print("🙏🙏🙏 you for using the program 👋👋👋");
+                    break;
             }
             
         }
         
 
-        static int getNumberOfElements(string[] input)
+        static int getNumberOfElementsString(string[] input)
         {
             int counter = 0;
             foreach (string ch in input)
@@ -182,7 +232,16 @@ namespace project_1
             return counter;
         }
 
-        static int getSum(int[] input)
+        static int getNumberOfElementsInt(List<int> input)
+        {
+            int counter = 0;
+            foreach (int ch in input)
+            {
+                counter++;
+            }
+            return counter;
+        }
+        static int getSum(List<int> input)
         {
             int sum = 0;
             foreach (int ch in input)
@@ -192,7 +251,7 @@ namespace project_1
             return sum;
         }
 
-        static bool checkIfArgs(string[] startInput);
+        //static bool checkIfArgs(string[] startInput);
 
         static bool isValidCoice(string input)
         {
@@ -214,6 +273,7 @@ namespace project_1
                 return false;
             }
         }
+
 
         static void Main(string[] args)
         {
@@ -237,6 +297,7 @@ namespace project_1
                 validChoice = isValidCoice(userChoice);
             }
             int choice = int.Parse(userChoice);
+            choosingOption(choice, convertedList);
 
         }
     }
