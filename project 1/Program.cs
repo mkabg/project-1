@@ -40,7 +40,7 @@ namespace project_1
 
         static string[] splitInput(string input)
         {
-            return input.Split(' ');
+            return input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
         static string getUserInput()
         {
@@ -97,11 +97,13 @@ namespace project_1
         static List <int> reverseTheSeries(List<int> input)
         {
             List<int> reversed = new List<int>();
-            for (int i = getNumberOfElementsInt(input); i <= 0; i--)
+            for (int i = getNumberOfElementsInt(input) - 1; i >= 0; i--)
             {
                 reversed.Add(input[i]);
             }
-            return reversed;
+            
+           
+                return reversed;
         }
 
         static List<int> getSortedList(List<int> input)
@@ -111,7 +113,7 @@ namespace project_1
             {
                 for (int j = 0; j < getNumberOfElementsInt(input); j++)
                 {
-                    if (input[i] > input[j])
+                    if (input[i] < input[j])
                     {
                         int temp = input[i];
                         input[i] = input[j];
@@ -165,28 +167,21 @@ namespace project_1
             switch(input)
             {
                 case 1:
-                    requierdInput();
-                    string userInput = getUserInput();
-                    string[] listUserInput = splitInput(userInput);
-                    if (isValidate(listUserInput))
-                    {
-                        List<int> convertedList = convertToInt(listUserInput);
-                        print("the series you entered is " + convertedList);
-                    }
+                    converted = loopSeries();
                     break;
 
                 case 2:
-                    print("the series you entered is " + converted);
+                    print("the series you entered is " + string.Join(", ", converted));
                     break;
 
                 case 3:
                     List<int> reversedList = reverseTheSeries(converted);
-                    print("the series you entered at reverse is " + reversedList);
+                    print("the series you entered at reverse is " + string.Join(", ", reversedList));
                     break;
 
                 case 4:
                     List<int> sortedList = getSortedList(converted);
-                    print("the series you entered at sorted is " + sortedList);
+                    print("the series you entered at sorted is " + string.Join(", ", sortedList));
                     break;
 
                 case 5:
@@ -211,14 +206,13 @@ namespace project_1
 
                 case 9:
                     int sum = getSum(converted);
-                    print("the sum of the series is " + sum);
+                    print("The sum of the series is " + sum);
                     break;
 
                 case 10:
-                    print("🙏🙏🙏 you for using the program 👋👋👋");
+                    print("🙏🙏🙏 Thank you for using the program 👋👋👋");
                     break;
             }
-            
         }
         
 
@@ -274,8 +268,7 @@ namespace project_1
             }
         }
 
-
-        static void Main(string[] args)
+        static List<int> loopSeries()
         {
             string[] listUserInput = { };
             bool isValidInput = false;
@@ -287,17 +280,51 @@ namespace project_1
                 isValidInput = isValidate(listUserInput);
             }
             List<int> convertedList = convertToInt(listUserInput);
+            return convertedList;
+        }
 
-            string userChoice = "";
+        static int loopMenue(List<int> convertedSeries)
+        {
+            //string userChoice = "";
+            //bool validChoice = false;
+            //while (!validChoice)
+            //{
+            //    showMenue();
+            //    userChoice = getUserInput();
+            //    validChoice = isValidCoice(userChoice);
+            //}
+            int choice = -1;
+            while (choice != 10)
+            {
+                string userChoice = validUserChoice();
+                choice = int.Parse(userChoice);
+                choosingOption(choice, convertedSeries);
+            }
+            return choice;
+        }
+
+        static string validUserChoice()
+        {
             bool validChoice = false;
+            string userChoice = "";
             while (!validChoice)
             {
                 showMenue();
                 userChoice = getUserInput();
                 validChoice = isValidCoice(userChoice);
             }
-            int choice = int.Parse(userChoice);
-            choosingOption(choice, convertedList);
+            return userChoice;
+        }
+        static void Main(string[] args)
+        {
+            //List<int> convertedUserInput = loopSeries();
+            //int userChoice = loopMenue(convertedUserInput);
+
+            loopMenue(loopSeries());
+            //while (userChoice != 10)
+            //{
+            //    choosingOption(userChoice, convertedUserInput);
+            //}
 
         }
     }
